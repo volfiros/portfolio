@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rithvik.info"),
   title: { default: "rithvik", template: "%s | rithvik" },
   description: "web & product engineer — fullstack, web3, and ai-powered products.",
   icons: { icon: "/avatar.jpeg" },
