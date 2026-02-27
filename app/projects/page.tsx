@@ -9,12 +9,25 @@ import { projects } from "@/lib/data";
 
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const tagVariant = {
+  hidden: { opacity: 0, x: -6 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: i * 0.04, duration: 0.3, ease: "easeOut" },
+  }),
 };
 
 export default function ProjectsPage() {
@@ -50,7 +63,7 @@ export default function ProjectsPage() {
       />
 
       <motion.div
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
         variants={container}
         initial="hidden"
         animate="visible"
@@ -58,53 +71,71 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <motion.div key={project.id} variants={cardVariant}>
             <motion.div
-              className="group relative flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 transition-colors duration-300"
               whileHover={{
-                scale: 1.015,
-                y: -2,
-                borderColor: "rgba(139,92,246,0.2)",
-                boxShadow: "0 8px 32px rgba(139,92,246,0.08)",
+                y: -3,
+                borderColor: "rgba(139,92,246,0.18)",
+                backgroundColor: "rgba(255,255,255,0.03)",
+                boxShadow: "0 12px 40px rgba(139,92,246,0.07)",
               }}
-              whileTap={{ scale: 0.99 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              whileTap={{ scale: 0.985 }}
+              transition={{ type: "spring", stiffness: 280, damping: 22 }}
             >
-              <div className="mb-4 flex items-center justify-between">
-                <span className="font-mono text-[11px] text-violet-400/70">
-                  {project.id}
-                </span>
-                <span className="font-mono text-[10px] text-slate-700">
+              {/* Ambient glow on hover */}
+              <motion.div
+                className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-violet-500/[0.06] blur-2xl"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              />
+
+              {/* Header: number + title + year */}
+              <div className="mb-3 flex items-baseline justify-between gap-3">
+                <div className="flex items-baseline gap-2.5">
+                  <span className="font-mono text-[10px] text-violet-400/50 transition-colors duration-300 group-hover:text-violet-400/90">
+                    {project.id}
+                  </span>
+                  <h2 className="text-[13px] font-medium tracking-tight text-slate-300 transition-colors duration-300 group-hover:text-white">
+                    {project.title}
+                  </h2>
+                </div>
+                <span className="shrink-0 font-mono text-[10px] text-slate-700">
                   {project.year}
                 </span>
               </div>
 
-              <h2 className="mb-2 text-sm font-medium text-slate-200 transition-colors duration-200 group-hover:text-violet-300">
-                {project.title}
-              </h2>
-
-              <p className="mb-5 flex-1 text-[13px] leading-relaxed text-slate-500">
+              {/* Description */}
+              <p className="mb-5 flex-1 text-[12.5px] leading-relaxed text-slate-500 transition-colors duration-300 group-hover:text-slate-400">
                 {project.description}
               </p>
 
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 3).map((tag) => (
-                    <span
+              {/* Footer: tags + links */}
+              <div className="flex items-center justify-between gap-3">
+                {/* Tags as dot-separated text */}
+                <div className="flex items-center gap-0 overflow-hidden">
+                  {project.tags.slice(0, 4).map((tag, i) => (
+                    <motion.span
                       key={tag}
-                      className="rounded-md bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-slate-600"
+                      custom={i}
+                      variants={tagVariant}
+                      className="flex items-center font-mono text-[10px] text-slate-600 transition-colors duration-300 group-hover:text-slate-500"
                     >
+                      {i > 0 && (
+                        <span className="mx-1.5 text-slate-700">·</span>
+                      )}
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2">
+                {/* Links */}
+                <div className="flex shrink-0 items-center gap-3">
                   {project.live && (
                     <Link
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] text-slate-500 transition-colors hover:border-violet-500/30 hover:text-violet-400"
+                      className="flex items-center gap-1 font-mono text-[10px] text-slate-600 transition-colors duration-200 hover:text-violet-400"
                     >
                       <ExternalLink size={10} />
                       live
@@ -114,8 +145,7 @@ export default function ProjectsPage() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] text-slate-500 transition-colors hover:border-violet-500/30 hover:text-violet-400"
+                    className="flex items-center gap-1 font-mono text-[10px] text-slate-600 transition-colors duration-200 hover:text-violet-400"
                   >
                     <Github size={10} />
                     code
