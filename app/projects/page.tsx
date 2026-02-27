@@ -22,8 +22,8 @@ const cardVariant = {
 };
 
 const tagVariant = {
-  hidden: { opacity: 0, x: -6 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
+  hidden: { opacity: 0, y: 4 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" as const } },
 };
 
 export default function ProjectsPage() {
@@ -84,7 +84,7 @@ export default function ProjectsPage() {
                 transition={{ duration: 0.4 }}
               />
 
-              <div className="mb-3 flex items-baseline justify-between gap-3">
+              <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="flex items-baseline gap-2.5">
                   <span className="font-mono text-[10px] text-violet-400/50 transition-colors duration-300 group-hover:text-violet-400/90">
                     {project.id}
@@ -93,31 +93,6 @@ export default function ProjectsPage() {
                     {project.title}
                   </h2>
                 </div>
-                <span className="shrink-0 font-mono text-[10px] text-slate-700">
-                  {project.year}
-                </span>
-              </div>
-
-              <p className="mb-5 flex-1 text-[12.5px] leading-relaxed text-slate-500 transition-colors duration-300 group-hover:text-slate-400">
-                {project.description}
-              </p>
-
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-0 overflow-hidden">
-                  {project.tags.slice(0, 4).map((tag, i) => (
-                    <motion.span
-                      key={tag}
-                      variants={tagVariant}
-                      className="flex items-center font-mono text-[10px] text-slate-600 transition-colors duration-300 group-hover:text-slate-500"
-                    >
-                      {i > 0 && (
-                        <span className="mx-1.5 text-slate-700">·</span>
-                      )}
-                      {tag}
-                    </motion.span>
-                  ))}
-                </div>
-
                 <div className="flex shrink-0 items-center gap-3">
                   {project.live && (
                     <Link
@@ -125,6 +100,7 @@ export default function ProjectsPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 font-mono text-[10px] text-slate-600 transition-colors duration-200 hover:text-violet-400"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <ExternalLink size={10} />
                       live
@@ -135,11 +111,28 @@ export default function ProjectsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 font-mono text-[10px] text-slate-600 transition-colors duration-200 hover:text-violet-400"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <Github size={10} />
                     code
                   </Link>
                 </div>
+              </div>
+
+              <p className="mb-4 flex-1 text-[12.5px] leading-relaxed text-slate-500 transition-colors duration-300 group-hover:text-slate-400">
+                {project.description}
+              </p>
+
+              <div className="flex flex-wrap gap-1.5">
+                {project.tags.map((tag) => (
+                  <motion.span
+                    key={tag}
+                    variants={tagVariant}
+                    className="rounded-md border border-white/[0.05] bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] text-slate-600 transition-colors duration-300 group-hover:border-violet-500/10 group-hover:text-slate-500"
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
               </div>
             </motion.div>
           </motion.div>
