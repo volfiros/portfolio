@@ -5,7 +5,7 @@ export const personalInfo = {
   status: "open to work",
   bio: [
     "engineer who works across the stack — web applications, ai integrations, and web3 systems. I'm drawn to problems that sit at the intersection of different technologies, whether that's wiring up an llm to a production api, building onchain systems, or crafting interfaces that feel fast and intuitive.",
-    "I've shipped across different domains: frontend products with tight ux, backend systems with clean apis, llm-powered features, and smart contracts on evm chains. I pick up new tools quickly and care about the details — from system design down to the final interaction.",
+    "I've shipped across different domains: frontend products with tight ux, backend systems with clean apis, llm-powered features, and smart contracts on solana/evm chains. I pick up new tools quickly and care about the details — from system design down to the final interaction.",
     "Currently open to new opportunities and interesting problems.",
   ],
   location: "India",

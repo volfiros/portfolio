@@ -59,9 +59,8 @@ function DockIcon({
       ref={ref}
       style={{ width: size, height: size }}
       suppressHydrationWarning
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onTouchEnd={() => setHovered(false)}
+      onPointerEnter={(e) => { if (e.pointerType === "mouse") setHovered(true); }}
+      onPointerLeave={(e) => { if (e.pointerType === "mouse") setHovered(false); }}
       whileTap={{ scale: 0.88 }}
       className={`relative flex items-center justify-center rounded-xl transition-colors duration-150 ${
         isActive
@@ -129,9 +128,8 @@ export function FloatingDock() {
     >
       <motion.div
         className="flex items-end gap-1 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 backdrop-blur-xl shadow-xl shadow-black/40"
-        onMouseMove={(e) => mouseX.set(e.pageX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        onTouchEnd={() => mouseX.set(Infinity)}
+        onPointerMove={(e) => { if (e.pointerType === "mouse") mouseX.set(e.pageX); }}
+        onPointerLeave={(e) => { if (e.pointerType === "mouse") mouseX.set(Infinity); }}
       >
         {navItems.map(({ icon, label, path }) => {
           const isActive =
