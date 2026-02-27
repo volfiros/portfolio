@@ -38,9 +38,30 @@ export const projects: {
   title: string;
   description: string;
   tags: string[];
-  link: string;
+  github: string;
+  live?: string;
   year: string;
-}[] = [];
+}[] = [
+  {
+    id: "01",
+    title: "panora",
+    description:
+      "chrome extension that detects manga speech bubbles using computer vision and translates them live across 12 languages — without touching the original artwork.",
+    tags: ["react", "typescript", "python", "fastapi", "gemini"],
+    github: "https://github.com/PanoraTL",
+    year: "2026",
+  },
+  {
+    id: "02",
+    title: "resume matching system",
+    description:
+      "ai-powered resume screening platform with a five-stage multi-agent pipeline — document parsing, skill extraction, job analysis, candidate matching, and automated decision-making.",
+    tags: ["next.js", "typescript", "gemini", "tailwind"],
+    github: "https://github.com/volfiros/resume-matching",
+    live: "https://resume-matching-rithvik.vercel.app",
+    year: "2025",
+  },
+];
 
 export const experience = [
   {

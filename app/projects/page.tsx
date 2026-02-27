@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { BackButton } from "@/components/BackButton";
 import { PageHeader } from "@/components/PageHeader";
@@ -57,53 +57,72 @@ export default function ProjectsPage() {
       >
         {projects.map((project) => (
           <motion.div key={project.id} variants={cardVariant}>
-            <Link href={project.link}>
-              <motion.div
-                className="group relative flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
-                whileHover={{
-                  scale: 1.015,
-                  y: -2,
-                  borderColor: "rgba(139,92,246,0.2)",
-                  boxShadow: "0 8px 32px rgba(139,92,246,0.08)",
-                }}
-                whileTap={{ scale: 0.99 }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-violet-400/70">
-                    {project.id}
-                  </span>
-                  <span className="font-mono text-[10px] text-slate-700">
-                    {project.year}
-                  </span>
+            <motion.div
+              className="group relative flex h-full flex-col rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+              whileHover={{
+                scale: 1.015,
+                y: -2,
+                borderColor: "rgba(139,92,246,0.2)",
+                boxShadow: "0 8px 32px rgba(139,92,246,0.08)",
+              }}
+              whileTap={{ scale: 0.99 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <span className="font-mono text-[11px] text-violet-400/70">
+                  {project.id}
+                </span>
+                <span className="font-mono text-[10px] text-slate-700">
+                  {project.year}
+                </span>
+              </div>
+
+              <h2 className="mb-2 text-sm font-medium text-slate-200 transition-colors duration-200 group-hover:text-violet-300">
+                {project.title}
+              </h2>
+
+              <p className="mb-5 flex-1 text-[13px] leading-relaxed text-slate-500">
+                {project.description}
+              </p>
+
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-slate-600"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
 
-                <h2 className="mb-2 text-sm font-medium text-slate-200 transition-colors duration-200 group-hover:text-violet-300">
-                  {project.title}
-                </h2>
-
-                <p className="mb-4 flex-1 text-[13px] leading-relaxed text-slate-500">
-                  {project.description}
-                </p>
-
-                <div className="flex items-end justify-between gap-2">
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-md bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-slate-600"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <ArrowUpRight
-                    size={13}
-                    className="shrink-0 text-slate-700 transition-colors group-hover:text-violet-400"
-                  />
+                <div className="flex shrink-0 items-center gap-2">
+                  {project.live && (
+                    <Link
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] text-slate-500 transition-colors hover:border-violet-500/30 hover:text-violet-400"
+                    >
+                      <ExternalLink size={10} />
+                      live
+                    </Link>
+                  )}
+                  <Link
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1 font-mono text-[10px] text-slate-500 transition-colors hover:border-violet-500/30 hover:text-violet-400"
+                  >
+                    <Github size={10} />
+                    code
+                  </Link>
                 </div>
-              </motion.div>
-            </Link>
+              </div>
+            </motion.div>
           </motion.div>
         ))}
       </motion.div>
