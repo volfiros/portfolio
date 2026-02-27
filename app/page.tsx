@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Database, MapPin, Sparkles } from "lucide-react";
+import { ArrowUpRight, Database, FileText, Github, MapPin, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -136,6 +136,27 @@ export default function HomePage() {
 
             <motion.div variants={fadeUp}>
               <RoleTicker />
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="mt-4 flex items-center gap-2">
+              <Link
+                href="https://tinyurl.com/rithvik-resume"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 font-mono text-[11px] text-slate-500 transition-all duration-200 hover:border-violet-500/20 hover:bg-violet-500/[0.04] hover:text-violet-300"
+              >
+                <FileText size={11} />
+                resume
+              </Link>
+              <Link
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 font-mono text-[11px] text-slate-500 transition-all duration-200 hover:border-violet-500/20 hover:bg-violet-500/[0.04] hover:text-violet-300"
+              >
+                <Github size={11} />
+                github
+              </Link>
             </motion.div>
           </div>
 

@@ -26,21 +26,19 @@ export function GithubCalendar() {
     const setup = (scrollEl: HTMLElement) => {
       (scrollEl.style as any).scrollbarWidth = "none";
       (scrollEl.style as any).msOverflowStyle = "none";
+      (scrollEl.style as any).overflowX = "auto";
 
-      const styleId = "github-cal-no-scroll";
+      const styleId = "github-cal-no-scrollbar";
       if (!document.getElementById(styleId)) {
         const style = document.createElement("style");
         style.id = styleId;
         style.textContent = `
-          .github-cal-wrapper [style*="overflow"]::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
-            height: 0 !important;
-          }
+          .github-cal-inner::-webkit-scrollbar { display: none !important; }
         `;
         document.head.appendChild(style);
       }
 
+      scrollEl.classList.add("github-cal-inner");
       scrollEl.style.cursor = "grab";
 
       let isDragging = false;
@@ -95,35 +93,26 @@ export function GithubCalendar() {
       };
     };
 
-    const findScrollEl = (): HTMLElement | null => {
+    const findCalendarScrollEl = (): HTMLElement | null => {
       const candidates = wrapper.querySelectorAll<HTMLElement>("[style]");
       for (const el of candidates) {
         if (el.style.overflowX === "auto" || el.style.overflowX === "scroll") {
           return el;
         }
       }
-      const byClass = wrapper.querySelector<HTMLElement>('[class*="scroll-container"]');
-      if (byClass) return byClass;
-      return wrapper.querySelector<HTMLElement>("article");
+      return null;
     };
 
     const trySetup = (): boolean => {
-      const el = findScrollEl();
-      if (el) {
-        setup(el);
-        return true;
-      }
+      const el = findCalendarScrollEl();
+      if (el) { setup(el); return true; }
       return false;
     };
 
-    if (trySetup()) {
-      return () => cleanup?.();
-    }
+    if (trySetup()) return () => cleanup?.();
 
     const observer = new MutationObserver(() => {
-      if (trySetup()) {
-        observer.disconnect();
-      }
+      if (trySetup()) observer.disconnect();
     });
 
     observer.observe(wrapper, { childList: true, subtree: true });
@@ -155,19 +144,17 @@ export function GithubCalendar() {
         </a>
       </div>
 
-      <div ref={wrapperRef} className="github-cal-wrapper overflow-x-auto">
-        <div className="min-w-max">
-          <GitHubCalendar
-            username={personalInfo.github.split("/").pop() ?? ""}
-            colorScheme="dark"
-            theme={theme}
-            year={2026}
-            blockSize={10}
-            blockMargin={3}
-            fontSize={10}
-            style={{ color: "#475569" }}
-          />
-        </div>
+      <div ref={wrapperRef}>
+        <GitHubCalendar
+          username={personalInfo.github.split("/").pop() ?? ""}
+          colorScheme="dark"
+          theme={theme}
+          year={2026}
+          blockSize={10}
+          blockMargin={3}
+          fontSize={10}
+          style={{ color: "#475569" }}
+        />
       </div>
     </motion.div>
   );
