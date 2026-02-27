@@ -131,6 +131,7 @@ export function FloatingDock() {
         className="flex items-end gap-1 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 backdrop-blur-xl shadow-xl shadow-black/40"
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
+        onTouchEnd={() => mouseX.set(Infinity)}
       >
         {navItems.map(({ icon, label, path }) => {
           const isActive =
