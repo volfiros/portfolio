@@ -61,6 +61,7 @@ function DockIcon({
       suppressHydrationWarning
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onTouchEnd={() => setHovered(false)}
       whileTap={{ scale: 0.88 }}
       className={`relative flex items-center justify-center rounded-xl transition-colors duration-150 ${
         isActive
