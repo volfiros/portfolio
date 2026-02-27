@@ -46,7 +46,7 @@ export default function ExperiencePage() {
           {experience.map((job) => (
             <motion.div
               key={job.id}
-              className="relative pl-8"
+              className="relative pl-6 sm:pl-8"
               variants={cardVariant}
             >
               <motion.div
@@ -69,15 +69,15 @@ export default function ExperiencePage() {
               </motion.div>
 
               <motion.div
-                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5"
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5"
                 whileHover={{
                   borderColor: "rgba(139,92,246,0.12)",
                   backgroundColor: "rgba(139,92,246,0.02)",
                 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="mb-1 flex items-start justify-between gap-4">
-                  <div>
+                <div className="mb-1 flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+                  <div className="min-w-0">
                     <h2 className="text-sm font-medium text-slate-200">
                       {job.role}
                     </h2>

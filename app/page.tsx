@@ -125,7 +125,7 @@ export default function HomePage() {
 
             <motion.h1
               variants={fadeUp}
-              className="text-shimmer text-4xl font-semibold tracking-tight sm:text-5xl"
+              className="text-shimmer text-3xl font-semibold tracking-tight sm:text-4xl"
             >
               {personalInfo.name}
             </motion.h1>
@@ -151,7 +151,7 @@ export default function HomePage() {
               className="relative"
             >
               <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-2xl" />
-              <div className="relative h-28 w-28 overflow-hidden rounded-full border border-violet-500/20 ring-2 ring-violet-500/10 ring-offset-2 ring-offset-[#080b14] sm:h-32 sm:w-32">
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-violet-500/20 ring-2 ring-violet-500/10 ring-offset-2 ring-offset-[#080b14] sm:h-28 sm:w-28">
                 <Image
                   src="/avatar.jpeg"
                   alt={personalInfo.name}

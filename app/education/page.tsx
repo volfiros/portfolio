@@ -40,9 +40,9 @@ export default function EducationPage() {
               boxShadow: "0 8px 32px rgba(139,92,246,0.06)",
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-6"
           >
-            <div className="mb-4 flex items-start justify-between gap-4">
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
               <div>
                 <div className="mb-1 font-mono text-[10px] text-violet-400/60">
                   {item.id}

@@ -74,7 +74,7 @@ export default function ContactPage() {
         animate={{ y: [0, -5, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <p className="text-2xl font-semibold tracking-tight sm:text-3xl overflow-hidden">
+        <p className="text-xl font-semibold tracking-tight sm:text-2xl overflow-hidden">
           {["let's", "build", "something"].map((word, i) => (
             <motion.span
               key={word}
@@ -88,7 +88,7 @@ export default function ContactPage() {
             </motion.span>
           ))}
         </p>
-        <p className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl overflow-hidden">
+        <p className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl overflow-hidden">
           {["worth", "remembering."].map((word, i) => (
             <motion.span
               key={word}

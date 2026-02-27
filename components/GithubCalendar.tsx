@@ -155,17 +155,19 @@ export function GithubCalendar() {
         </a>
       </div>
 
-      <div ref={wrapperRef} className="github-cal-wrapper">
-        <GitHubCalendar
-          username={personalInfo.github.split("/").pop() ?? ""}
-          colorScheme="dark"
-          theme={theme}
-          year={2026}
-          blockSize={11}
-          blockMargin={3}
-          fontSize={10}
-          style={{ color: "#475569" }}
-        />
+      <div ref={wrapperRef} className="github-cal-wrapper overflow-x-auto">
+        <div className="min-w-max">
+          <GitHubCalendar
+            username={personalInfo.github.split("/").pop() ?? ""}
+            colorScheme="dark"
+            theme={theme}
+            year={2026}
+            blockSize={10}
+            blockMargin={3}
+            fontSize={10}
+            style={{ color: "#475569" }}
+          />
+        </div>
       </div>
     </motion.div>
   );
