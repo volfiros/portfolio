@@ -46,7 +46,15 @@ export const projects: {
     title: "panora",
     description:
       "chrome extension that detects manga speech bubbles using computer vision and translates them live across 12 languages — without touching the original artwork.",
-    tags: ["react", "typescript", "python", "fastapi", "gemini"],
+    tags: [
+      "react",
+      "typescript",
+      "python",
+      "fastapi",
+      "gemini",
+      "convex",
+      "better-auth",
+    ],
     github: "https://github.com/PanoraTL",
   },
   {
@@ -54,8 +62,16 @@ export const projects: {
     title: "sift",
     description:
       "ai-powered resume screening platform — upload a job description and multiple resumes, and a langgraph multi-agent pipeline extracts skills, matches candidates, and returns deterministic match scores with hiring recommendations.",
-    tags: ["next.js", "typescript", "langgraph", "gemini", "convex", "better-auth", "tailwind"],
-    github: "https://github.com/volfiros/resume-matching",
+    tags: [
+      "next.js",
+      "typescript",
+      "langgraph",
+      "gemini",
+      "convex",
+      "better-auth",
+      "tailwind",
+    ],
+    github: "https://github.com/volfiros/sift",
     live: "https://sift-matching.vercel.app",
   },
 ];
