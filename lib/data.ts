@@ -40,7 +40,6 @@ export const projects: {
   tags: string[];
   github: string;
   live?: string;
-  year: string;
 }[] = [
   {
     id: "01",
@@ -49,17 +48,15 @@ export const projects: {
       "chrome extension that detects manga speech bubbles using computer vision and translates them live across 12 languages — without touching the original artwork.",
     tags: ["react", "typescript", "python", "fastapi", "gemini"],
     github: "https://github.com/PanoraTL",
-    year: "2026",
   },
   {
     id: "02",
-    title: "resume matching system",
+    title: "sift",
     description:
-      "ai-powered resume screening platform with a five-stage multi-agent pipeline — document parsing, skill extraction, job analysis, candidate matching, and automated decision-making.",
-    tags: ["next.js", "typescript", "gemini", "tailwind"],
+      "ai-powered resume screening platform — upload a job description and multiple resumes, and a langgraph multi-agent pipeline extracts skills, matches candidates, and returns deterministic match scores with hiring recommendations.",
+    tags: ["next.js", "typescript", "langgraph", "gemini", "convex", "better-auth", "tailwind"],
     github: "https://github.com/volfiros/resume-matching",
-    live: "https://resume-matching-rithvik.vercel.app",
-    year: "2025",
+    live: "https://sift-matching.vercel.app",
   },
 ];
 
