@@ -140,7 +140,7 @@ export default function HomePage() {
 
             <motion.div variants={fadeUp} className="mt-4 flex items-center gap-2">
               <Link
-                href="https://tinyurl.com/rithvik-resume"
+                href="https://tinyurl.com/rithvik-cv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 font-mono text-[11px] text-slate-500 transition-all duration-200 hover:border-violet-500/20 hover:bg-violet-500/[0.04] hover:text-violet-300"
