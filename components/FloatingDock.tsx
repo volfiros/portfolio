@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navItems = [
   { icon: Home, label: "home", path: "/" },
@@ -117,17 +117,40 @@ function DockIcon({
 export function FloatingDock() {
   const pathname = usePathname();
   const mouseX = useMotionValue(Infinity);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 10) {
+        setVisible(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <motion.nav
       className="fixed bottom-6 left-1/2 z-50"
       style={{ x: "-50%" }}
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+      initial={{ y: 100, opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+      animate={
+        visible
+          ? { y: 0, opacity: 1, scale: 1, filter: "blur(0px)" }
+          : { y: 100, opacity: 0, scale: 0.8, filter: "blur(10px)" }
+      }
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+        mass: 0.8,
+        opacity: { duration: 0.3 },
+        filter: { duration: 0.4 },
+      }}
     >
       <motion.div
-        className="flex items-end gap-1 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 backdrop-blur-xl shadow-xl shadow-black/40"
+        className="flex items-end gap-1 rounded-2xl border border-white/[0.1] bg-[#0f1220]/80 px-3 py-2 backdrop-blur-2xl shadow-2xl shadow-black/60"
         onPointerMove={(e) => { if (e.pointerType === "mouse") mouseX.set(e.pageX); }}
         onPointerLeave={(e) => { if (e.pointerType === "mouse") mouseX.set(Infinity); }}
       >

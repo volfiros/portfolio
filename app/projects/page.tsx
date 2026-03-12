@@ -102,7 +102,10 @@ export default function ProjectsPage() {
                       className="flex items-center gap-1 font-mono text-[10px] text-slate-600 transition-colors duration-200 hover:text-violet-400"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <ExternalLink size={10} />
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-50" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-violet-500" />
+                      </span>
                       live
                     </Link>
                   )}
