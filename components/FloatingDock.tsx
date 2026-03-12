@@ -150,7 +150,7 @@ export function FloatingDock() {
 
         <DockIcon
           icon={Search}
-          label="search ⌘K"
+          label="search"
           mouseX={mouseX}
           onClick={() => {
             document.dispatchEvent(

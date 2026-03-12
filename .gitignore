@@ -41,3 +41,6 @@ next-env.d.ts
 # skills folders
 **/skills/
 skills-lock.json
+
+# claude
+.claude/
