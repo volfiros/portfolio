@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Database, FileText, Github, MapPin, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar3DWrapper } from "@/components/Avatar3DWrapper";
 import {
   SiTypescript,
   SiPython,
@@ -21,7 +22,7 @@ import {
 import { experience, personalInfo, roles, skills } from "@/lib/data";
 import { GithubCalendar } from "@/components/GithubCalendar";
 
-const skillIcons: Record<string, React.ElementType> = {
+const skillIcons: Record<string, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
   typescript: SiTypescript,
   python: SiPython,
   rust: SiRust,
@@ -160,29 +161,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
-            className="shrink-0"
-          >
-            <motion.div
-              animate={reduce ? {} : { y: [0, -6, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
-            >
-              <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-2xl" />
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-violet-500/20 ring-2 ring-violet-500/10 ring-offset-2 ring-offset-[#080b14] sm:h-28 sm:w-28">
-                <Image
-                  src="/avatar.jpeg"
-                  alt={personalInfo.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
-          </motion.div>
+          <Avatar3DWrapper />
         </section>
 
         <motion.section variants={fadeUp} className="space-y-3">

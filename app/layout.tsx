@@ -4,6 +4,7 @@ import "./globals.css";
 import { FloatingDock } from "@/components/FloatingDock";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Footer } from "@/components/Footer";
+import ParticleBackground from "@/components/ParticleBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,18 +20,18 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://rithvik.info"),
   title: { default: "rithvik", template: "%s | rithvik" },
   description: "web & product engineer — fullstack, web3, and ai-powered products.",
-  icons: { icon: "/avatar.jpeg" },
+  icons: { icon: "/assets/avatar.jpeg" },
   openGraph: {
     title: "rithvik padma",
     description: "web & product engineer — fullstack, web3, and ai-powered products.",
-    images: [{ url: "/avatar.jpeg", width: 400, height: 400, alt: "rithvik padma" }],
+    images: [{ url: "/assets/avatar.jpeg", width: 400, height: 400, alt: "rithvik padma" }],
     type: "website",
   },
   twitter: {
     card: "summary",
     title: "rithvik padma",
     description: "web & product engineer — fullstack, web3, and ai-powered products.",
-    images: ["/avatar.jpeg"],
+    images: ["/assets/avatar.jpeg"],
   },
 };
 
@@ -46,6 +47,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <CommandPalette />
+        <ParticleBackground />
         <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden>
           <div className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-violet-600/[0.06] blur-3xl" />
           <div className="absolute bottom-0 -left-32 h-80 w-80 rounded-full bg-violet-600/[0.04] blur-3xl" />

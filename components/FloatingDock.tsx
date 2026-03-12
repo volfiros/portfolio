@@ -36,7 +36,7 @@ function DockIcon({
   onClick,
   href,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   label: string;
   mouseX: MotionValue<number>;
   isActive?: boolean;
