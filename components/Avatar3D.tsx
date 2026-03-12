@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, Float } from "@react-three/drei";
+import { useGLTF, useAnimations, Float } from "@react-three/drei";
 import * as THREE from "three";
 
 function Model({
@@ -15,9 +15,18 @@ function Model({
   reducedMotion: boolean;
 }) {
   const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/assets/avatar.glb");
+  const { scene, animations } = useGLTF("/assets/avatar.glb");
+  const { actions, names } = useAnimations(animations, group);
   const startTime = useRef(Date.now());
   const settled = useRef(false);
+  const animStarted = useRef(false);
+
+  // Play the first available animation once the model settles into idle
+  useEffect(() => {
+    if (names.length > 0) {
+      console.log("[Avatar3D] Available animations:", names);
+    }
+  }, [names]);
 
   useFrame(() => {
     if (!group.current) return;
@@ -29,6 +38,8 @@ function Model({
       if (!settled.current) {
         settled.current = true;
         onIntroComplete();
+        // Start idle animation immediately
+        startIdleAnimation(actions, names);
       }
       return;
     }
@@ -59,8 +70,12 @@ function Model({
         settled.current = true;
         group.current.scale.setScalar(1);
         onIntroComplete();
+        startIdleAnimation(actions, names);
       }
-      group.current.rotation.y += 0.002;
+      // Only apply manual rotation if no animation is playing
+      if (!animStarted.current) {
+        group.current.rotation.y += 0.002;
+      }
     }
   });
 
@@ -69,6 +84,32 @@ function Model({
       <primitive object={scene} />
     </group>
   );
+}
+
+// Pick and play the best idle/walk animation from available clips
+function startIdleAnimation(
+  actions: Record<string, THREE.AnimationAction | null>,
+  names: string[]
+) {
+  if (names.length === 0) return;
+
+  // Prefer animations that sound like idle/standing
+  const idleKeywords = ["idle", "stand", "breathing", "neutral", "rest", "wave", "talk"];
+  const walkKeywords = ["walk", "run", "move"];
+
+  const idleAnim = names.find((n) =>
+    idleKeywords.some((k) => n.toLowerCase().includes(k))
+  );
+  const walkAnim = names.find((n) =>
+    walkKeywords.some((k) => n.toLowerCase().includes(k))
+  );
+
+  const chosen = idleAnim ?? walkAnim ?? names[0];
+  const action = actions[chosen];
+  if (action) {
+    action.reset().fadeIn(0.5).play();
+    action.setLoop(THREE.LoopRepeat, Infinity);
+  }
 }
 
 function ParallaxRig({ reducedMotion }: { reducedMotion: boolean }) {
@@ -88,7 +129,6 @@ function ParallaxRig({ reducedMotion }: { reducedMotion: boolean }) {
 
 // Placeholder geometry when .glb fails to load
 function PlaceholderModel({
-  introPhase,
   onIntroComplete,
   reducedMotion,
 }: {
@@ -160,10 +200,9 @@ export default function Avatar3DScene({
   isOverlay: boolean;
   onIntroComplete: () => void;
 }) {
-  const [introPhase, setIntroPhase] = useState<"enter" | "spin" | "settle" | "idle">("enter");
+  const [introPhase] = useState<"enter" | "spin" | "settle" | "idle">("enter");
   const [usePlaceholder, setUsePlaceholder] = useState(false);
 
-  // Try to preload the GLB
   useEffect(() => {
     try {
       useGLTF.preload("/assets/avatar.glb");
@@ -178,7 +217,7 @@ export default function Avatar3DScene({
     <Canvas
       camera={{ position: [0, 1, 4], fov: 45 }}
       dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{
         position: "absolute",
         inset: 0,

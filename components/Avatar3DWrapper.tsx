@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { personalInfo } from "@/lib/data";
 import { useState, useEffect } from "react";
@@ -14,8 +14,8 @@ const Avatar3DScene = dynamic(() => import("./Avatar3D"), {
 export function Avatar3DWrapper({ onReady }: { onReady?: () => void }) {
   const reduce = useReducedMotion();
   const [introComplete, setIntroComplete] = useState(false);
+  const [inlineReady, setInlineReady] = useState(false);
   const [webglSupported, setWebglSupported] = useState(true);
-  const [sceneLoaded, setSceneLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -30,6 +30,7 @@ export function Avatar3DWrapper({ onReady }: { onReady?: () => void }) {
   useEffect(() => {
     if (reduce) {
       setIntroComplete(true);
+      setInlineReady(true);
       onReady?.();
     }
   }, [reduce, onReady]);
@@ -37,6 +38,9 @@ export function Avatar3DWrapper({ onReady }: { onReady?: () => void }) {
   const handleIntroComplete = () => {
     setIntroComplete(true);
     onReady?.();
+    // Wait for overlay exit animation to finish before mounting inline canvas
+    // prevents simultaneous WebGL contexts (browser limit causes context loss)
+    setTimeout(() => setInlineReady(true), 700);
   };
 
   // Fallback: 2D avatar if WebGL unavailable
@@ -70,40 +74,37 @@ export function Avatar3DWrapper({ onReady }: { onReady?: () => void }) {
 
   return (
     <>
-      {/* Full-screen overlay during intro */}
-      <AnimatePresence>
-        {!introComplete && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{ background: "rgba(8, 11, 20, 0.95)" }}
-          >
-            {/* Violet glow behind the model during intro */}
-            <div className="absolute h-64 w-64 rounded-full bg-violet-600/20 blur-3xl" />
-            <div className="relative h-[400px] w-[400px]">
-              <Avatar3DScene
-                reducedMotion={!!reduce}
-                isOverlay={true}
-                onIntroComplete={handleIntroComplete}
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Full-screen overlay during intro — unmounts before inline canvas mounts */}
+      {!introComplete && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ background: "rgba(8, 11, 20, 0.95)" }}
+        >
+          <div className="absolute h-64 w-64 rounded-full bg-violet-600/20 blur-3xl" />
+          <div className="relative h-[400px] w-[400px]">
+            <Avatar3DScene
+              reducedMotion={!!reduce}
+              isOverlay={true}
+              onIntroComplete={handleIntroComplete}
+            />
+          </div>
+        </motion.div>
+      )}
 
-      {/* Inline avatar in hero after intro */}
+      {/* Inline avatar in hero — only mounts after overlay is fully gone */}
       <motion.div
         initial={{ opacity: 0, scale: 0.85 }}
-        animate={introComplete ? { opacity: 1, scale: 1 } : {}}
+        animate={inlineReady ? { opacity: 1, scale: 1 } : {}}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative shrink-0"
         style={{ width: 160, height: 160 }}
       >
         <div className="pointer-events-none absolute -inset-4 rounded-full bg-violet-500/10 blur-xl" />
-        {introComplete && (
+        {inlineReady && (
           <Avatar3DScene
             reducedMotion={!!reduce}
             isOverlay={false}
